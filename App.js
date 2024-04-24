@@ -1,36 +1,49 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   StyleSheet,
   Text,
   View,
   Button,
   TouchableOpacity,
-  StatusBar
+  ScrollView,
+  Dimensions
 } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import data from './idols.json'
 
 function HomeScreen({ navigation }) {
-  const lists = [1,2,3,4,5,6]
+  const screenWidth = Dimensions.get('window').width;
+  const boxWidth = (screenWidth - 30) / 2;
 
   return (
-    <View style={styles.container}>
-      {lists.map((item) => (
-        <TouchableOpacity key={item} style={styles.optionContainer} onPress={()=>navigation.navigate('About', {idolId: item})}>
-          <Text style={styles.baseText}>One Thing</Text>
-        </TouchableOpacity>
-      ))}
-    </View>
+    <ScrollView style={styles.container}>
+      <View style={styles.optionsContainer}>
+        {data.map((data, i) => (
+          <TouchableOpacity key={i} style={[styles.boxOption, {width: boxWidth, height: boxWidth}]} onPress={()=>navigation.navigate('Idol', {idolId: i})}>
+            <Text style={styles.baseText}>{data.firstName}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </ScrollView>
   )
 }
 
-function AboutScreen({ route }) {
-  const idolId = JSON.stringify(route.params.idolId)
+function IdolScreen({ route }) {
+  const idolId = route.params.idolId+1
+
+  const getItemById = (id) => {
+    return data.find(item => item.id === id);
+  }
+
+  const idolData = getItemById(idolId)
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.baseText}>{idolId}</Text>
-    </View>
+    <ScrollView style={styles.container}>
+      <View style={styles.idolContainer}>
+      </View>
+      <Text style={styles.baseText}>{idolData.firstName}</Text>
+    </ScrollView>
   )
 }
 
@@ -52,10 +65,10 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name='About'
-          component={AboutScreen}
+          name='Idol'
+          component={IdolScreen}
           options={{
-            title: 'About',
+            title: 'Idol',
             headerStyle: {
               backgroundColor: 'red',
             },
@@ -71,20 +84,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    maxWidth: '100%',
-    gap: 5,
+    backgroundColor: '#212121'
+  },
+  optionsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-evenly',
-    backgroundColor: '#212121',
+    gap: 10,
+    paddingBottom: 40
+  },
+  boxOption: {
+    borderRadius: 8,
+    backgroundColor: 'blue',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  idolContainer: {
+    backgroundColor: 'red'
   },
   baseText: {
     color: 'white'
-  },
-  optionContainer: {
-    width: 200,
-    height: 200,
-    backgroundColor: 'red',
-    borderRadius: 5,
   }
 });

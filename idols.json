@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "firstName": "Chaewon",
+        "lastName": "Kim",
+        "Group": "Le Sserafim",
+        "Solo": false
+    },
+    {
+        "id": 2,
+        "firstName": "Kazuha",
+        "lastName": "Nakamura",
+        "Group": "Le Sserafim",
+        "Solo": false
+    },
+    {
+        "id": 3,
+        "firstName": "Sakura",
+        "lastName": "Miyawaki",
+        "Group": "Le Sserafim",
+        "Solo": false
+    },
+    {
+        "id": 4,
+        "firstName": "Yunjin",
+        "lastName": "Huh",
+        "Group": "Le Sserafim",
+        "Solo": false
+    },
+    {
+        "id": 5,
+        "firstName": "Eunchae",
+        "lastName": "Hong",
+        "Group": "Le Sserafim",
+        "Solo": false
+    }
+]
