@@ -33,5 +33,33 @@
         "image": "eunchae",
         "Group": "Le Sserafim",
         "Solo": false
+    },
+    {
+        "id": 6,
+        "name": "Karina",
+        "image": "karina",
+        "Group": "Aespa",
+        "Solo": false
+    },
+    {
+        "id": 7,
+        "name": "Ningning",
+        "image": "ningning",
+        "Group": "Aespa",
+        "Solo": false
+    },
+    {
+        "id": 8,
+        "name": "Winter",
+        "image": "winter",
+        "Group": "Aespa",
+        "Solo": false
+    },
+    {
+        "id": 9,
+        "name": "Giselle",
+        "image": "giselle",
+        "Group": "Aespa",
+        "Solo": false
     }
 ]

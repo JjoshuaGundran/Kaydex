@@ -54,14 +54,16 @@ function IdolScreen({ route, navigation }) {
           <>
             <Text style={[styles.baseText, {marginBottom: 10}]}>Group: {idolData.Group}</Text>
             <ScrollView style={[styles.optionsContainer, {marginBottom: 10}]} horizontal={true}>
-              {data.map((data, i) => (
-                <TouchableOpacity 
-                  key={i} 
-                  style={[styles.boxOption, {width: boxWidth, height: boxWidth}]} 
-                  onPress={()=>navigation.navigate('Idol', {idolId: i})}
-                >
-                  <Text style={styles.baseText}>{data.name}</Text>
-                </TouchableOpacity>
+              {data.map((item, i) => (
+                item.Group === idolData.Group ? (
+                  <TouchableOpacity 
+                    key={i}
+                    style={[styles.boxOption, {width: boxWidth, height: boxWidth}]} 
+                    onPress={()=>navigation.navigate('Idol', {idolId: i})}
+                  >
+                    <Text style={styles.baseText}>{item.name}</Text>
+                  </TouchableOpacity>
+                ) : null
               ))}
             </ScrollView>
           </>
@@ -81,7 +83,11 @@ const renderImages = {
   'kazuha': require('./assets/le-sserafim/kazuha.jpg'),
   'sakura': require('./assets/le-sserafim/sakura.jpg'),
   'yunjin': require('./assets/le-sserafim/yunjin.jpg'),
-  'eunchae': require('./assets/le-sserafim/eunchae.jpg')
+  'eunchae': require('./assets/le-sserafim/eunchae.jpg'),
+  'karina': require('./assets/aespa/karina.jpg'),
+  'ningning': require('./assets/aespa/ningning.jpg'),
+  'winter': require('./assets/aespa/winter.jpg'),
+  'giselle': require('./assets/aespa/giselle.jpg')
 }
 
 const Stack = createNativeStackNavigator()
