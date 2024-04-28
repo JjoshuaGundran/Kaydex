@@ -6,22 +6,27 @@ import {
   Button,
   TouchableOpacity,
   ScrollView,
-  Dimensions
+  Dimensions,
+  Image
 } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import data from './idols.json'
 
-function HomeScreen({ navigation }) {
-  const screenWidth = Dimensions.get('window').width;
-  const boxWidth = (screenWidth - 30) / 2;
+const screenWidth = Dimensions.get('window').width;
+const boxWidth = (screenWidth - 30) / 2;
 
+function HomeScreen({ navigation }) {
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, {padding: 10}]}>
       <View style={styles.optionsContainer}>
         {data.map((data, i) => (
-          <TouchableOpacity key={i} style={[styles.boxOption, {width: boxWidth, height: boxWidth}]} onPress={()=>navigation.navigate('Idol', {idolId: i})}>
-            <Text style={styles.baseText}>{data.firstName}</Text>
+          <TouchableOpacity 
+            key={i} 
+            style={[styles.boxOption, {width: boxWidth, height: boxWidth}]} 
+            onPress={()=>navigation.navigate('Idol', {idolId: i})}
+          >
+            <Text style={styles.baseText}>{data.name}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -29,22 +34,54 @@ function HomeScreen({ navigation }) {
   )
 }
 
-function IdolScreen({ route }) {
+function IdolScreen({ route, navigation }) {
   const idolId = route.params.idolId+1
-
-  const getItemById = (id) => {
-    return data.find(item => item.id === id);
-  }
-
   const idolData = getItemById(idolId)
+  const isSoloist = idolData.Solo
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.idolContainer}>
+    <View style={styles.container}>
+      <View style={styles.idolMainImageContainer}>
+        <Image style={styles.idolMainImage} source={renderImages[idolData.image]} />
       </View>
-      <Text style={styles.baseText}>{idolData.firstName}</Text>
-    </ScrollView>
+
+      <ScrollView style={{paddingVertical: 20, paddingHorizontal: 10}}>
+        <View style={styles.idolContentContainer}>
+          <Text style={[styles.baseText, {fontSize: 25, marginBottom: 10}]}>{idolData.name}</Text>
+          {isSoloist ? 
+            <Text style={styles.baseText}>Soloist</Text>
+          :
+          <>
+            <Text style={[styles.baseText, {marginBottom: 10}]}>Group: {idolData.Group}</Text>
+            <ScrollView style={[styles.optionsContainer, {marginBottom: 10}]} horizontal={true}>
+              {data.map((data, i) => (
+                <TouchableOpacity 
+                  key={i} 
+                  style={[styles.boxOption, {width: boxWidth, height: boxWidth}]} 
+                  onPress={()=>navigation.navigate('Idol', {idolId: i})}
+                >
+                  <Text style={styles.baseText}>{data.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </>
+          }
+        </View>
+      </ScrollView>
+    </View>
   )
+}
+
+const getItemById = (id) => {
+  return data.find(item => item.id === id);
+}
+
+const renderImages = {
+  'chaewon': require('./assets/le-sserafim/chaewon.jpeg'),
+  'kazuha': require('./assets/le-sserafim/kazuha.jpg'),
+  'sakura': require('./assets/le-sserafim/sakura.jpg'),
+  'yunjin': require('./assets/le-sserafim/yunjin.jpg'),
+  'eunchae': require('./assets/le-sserafim/eunchae.jpg')
 }
 
 const Stack = createNativeStackNavigator()
@@ -72,7 +109,7 @@ export default function App() {
             headerStyle: {
               backgroundColor: 'red',
             },
-            headerTintColor: '#fff'
+            headerTintColor: '#fff',
           }}
         />
       </Stack.Navigator>
@@ -81,26 +118,41 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container: { // basic container
     flex: 1,
-    padding: 10,
     backgroundColor: '#212121'
   },
-  optionsContainer: {
+  optionsContainer: { // container of all button options
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 10,
     paddingBottom: 40
   },
-  boxOption: {
+  boxOption: { // styling for box options
     borderRadius: 8,
-    backgroundColor: 'blue',
+    backgroundColor: 'red',
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
-  idolContainer: {
+  idolMainImageContainer: { // container for idol page image
+    padding: 10,
+    height: 250,
+    borderBottomLeftRadius: 50,
+    borderBottomRightRadius: 50,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'red'
+  },
+  idolMainImage: { // styling for idol page image
+    flex: 1,
+    width: 250,
+    resizeMode: 'contain',
+  },
+  idolContentContainer: {
+    flex: 1,
+    alignItems: 'center',
   },
   baseText: {
     color: 'white'
